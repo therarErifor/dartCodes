@@ -2,50 +2,43 @@ import 'dart:io';
 import 'dart:convert';
 
 void main(){
+
   print("Введите данные об автомобиле");
-  Car tom = Car();
+
   print("Марка автомобиля:");
-  tom.brand = stdin.readLineSync();
+  dynamic brand = stdin.readLineSync();
   print("Модель автомобиля:");
-  tom.model = stdin.readLineSync();
+  dynamic model = stdin.readLineSync();
   print("Цвет автомобиля:");
-  tom.color = stdin.readLineSync();
+  dynamic color = stdin.readLineSync();
   print("Госномер автомобиля");
-  tom.carNumber = stdin.readLineSync();
+  dynamic carNumber = stdin.readLineSync();
   print("Имя владельца");
-  tom.carOwnerName = stdin.readLineSync();
+  dynamic carOwnerName = stdin.readLineSync();
+
+  Car tom = Car(brand: brand, model: model, color: color,
+  carNumber: carNumber, carOwnerName: carOwnerName);
 
   String jsonCar = jsonEncode(tom);
   print(jsonCar);
-
-  //tom.display();
-
 }
 class Car {
-  String? brand, model, color, carNumber, carOwnerName;
- /*
-  void display(){
-    print("brand: $brand\n model: $model\n color: $color\n num: $num\n name: $name");
-  }
-  */
-  Car({this.brand, this.color, this.model, this.carNumber, this.carOwnerName});
+  final String brand;
+  final String model;
+  final String color;
+  final String carNumber;
+  final String carOwnerName;
 
-  Map toJson() => {
-    "brand\n" : brand,
-    "model\n" : model,
-    "color\n" : color,
-    "carNumber\n" : carNumber,
-    "carOwnerName\n" : carOwnerName,
-  };
-}
-/*
+  Car({required this.brand, required this.color, required this.model,
+    required this.carNumber, required this.carOwnerName});
+
   Map<String, dynamic> toJson() {
     return {
-      "brand" : brand,
-      "model" : model,
-      "color" : color,
-      "num" : num,
-      "ownName" : ownName,
+      "brand": brand,
+      "model": model,
+      "color": color,
+      "carNumber": carNumber,
+      "carOwnerName": carOwnerName,
     };
   }
-*/
+}
