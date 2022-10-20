@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:convert';
 
 void main(){
   print("Введите данные об автомобиле");
@@ -13,17 +14,29 @@ void main(){
   tom.num = stdin.readLineSync();
   print("name");
   tom.name = stdin.readLineSync();
-  tom.display();
+
+  String jsonCar = jsonEncode(tom);
+  print(jsonCar);
+
+  //tom.display();
 
 }
 class Car {
   String? brand, model, color, num, name;
+ /*
   void display(){
     print("brand: $brand\n model: $model\n color: $color\n num: $num\n name: $name");
   }
-
-
+  */
   Car({this.brand, this.color, this.model, this.num, this.name});
+
+  Map toJson() => {
+    "brand" : brand,
+    "model" : model,
+    "color" : color,
+    "num" : num,
+    "name" : name,
+  };
 }
 /*
   Map<String, dynamic> toJson() {
