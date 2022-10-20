@@ -6,15 +6,15 @@ void main(){
   print("Введите данные об автомобиле");
 
   print("Марка автомобиля:");
-  dynamic brand = stdin.readLineSync();
+  var brand = stdin.readLineSync()!;
   print("Модель автомобиля:");
-  dynamic model = stdin.readLineSync();
+  var model = stdin.readLineSync()!;
   print("Цвет автомобиля:");
-  dynamic color = stdin.readLineSync();
+  var color = stdin.readLineSync()!;
   print("Госномер автомобиля");
-  dynamic carNumber = stdin.readLineSync();
+  var carNumber = stdin.readLineSync()!;
   print("Имя владельца");
-  dynamic carOwnerName = stdin.readLineSync();
+  var carOwnerName = stdin.readLineSync()!;
 
   Car tom = Car(brand: brand, model: model, color: color,
   carNumber: carNumber, carOwnerName: carOwnerName);
