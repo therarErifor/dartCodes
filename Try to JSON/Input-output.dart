@@ -1,52 +1,34 @@
 import 'dart:io';
 import 'dart:convert';
 
+
 void main(){
-
   print("Введите данные об автомобиле");
-
-  print("Марка автомобиля:");
-
-  var brand = stdin.readLineSync()!;
-  while (brand == ""){
-    print("Пожалуйста, введите марку автомобиля!:");
-    brand = stdin.readLineSync()!;
-  };
-
-  print("Модель автомобиля:");
-  var model = stdin.readLineSync()!;
-  while (model == ""){
-    print("Пожалуйста, введите модель автомобиля!:");
-    model = stdin.readLineSync()!;
-  };
-
-  print("Цвет автомобиля:");
-  var color = stdin.readLineSync()!;
-  while (color == ""){
-    print("Пожалуйста, введите цвет автомобиля!:");
-    color = stdin.readLineSync()!;
-  };
-
-  print("Госномер автомобиля:");
-  var carNumber = stdin.readLineSync()!;
-  while (carNumber == ""){
-    print("Пожалуйста, введите госномер автомобиля!:");
-    carNumber = stdin.readLineSync()!;
-  };
-
-  print("Имя владельца автомобиля:");
-  var carOwnerName = stdin.readLineSync()!;
-  while (carOwnerName == ""){
-    print("Пожалуйста, введите имя владельца автомобиля!:");
-    carOwnerName = stdin.readLineSync()!;
-  };
+  var brand = check(text:"Марка");
+  var model = check(text: "Модель");
+  var color = check(text:"Цвет");
+  var carNumber = check(text: "Госномер" );
+  var carOwnerName = check(text: "Имя владельца");
 
   Car tom = Car(brand: brand, model: model, color: color,
   carNumber: carNumber, carOwnerName: carOwnerName);
 
   String jsonCar = jsonEncode(tom);
   print(jsonCar);
+
 }
+
+check({var text, data}) {
+  print("$text автомобиля:");
+  data = stdin.readLineSync()!;
+  text = text.toLowerCase();
+  while (data == "") {
+    print("Пожалуйста, введите $text автомобиля!:");
+    data = stdin.readLineSync()!;
+  };
+  return data;
+}
+
 class Car {
   final String brand;
   final String model;
