@@ -1,63 +1,49 @@
+import 'dart:io';
 import 'dart:convert';
 
-/*
-void main(){
-  print("Введите данные об автомобиле");
-  var brand = check(text:"Марка");
-  var model = check(text: "Модель");
-  var color = check(text:"Цвет");
-  var carNumber = check(text: "Госномер" );
-  var carOwnerName = check(text: "Имя владельца");
-
-  Car tom = Car(brand: brand, model: model, color: color,
-      carNumber: carNumber, carOwnerName: carOwnerName);
-
-  String jsonCar = jsonEncode(tom);
-  print(jsonCar);
-
-}
-
-check({var text, data}) {
-  print("$text автомобиля:");
-  data = stdin.readLineSync()!;
-  text = text.toLowerCase();
-  while (data == "") {
-    print("Пожалуйста, введите $text автомобиля!:");
-    data = stdin.readLineSync()!;
-  };
-  return data;
-}
-*/
 void main (){
   const jsonString =
       '{"brand": "Toyota", "model": "Corolla", "color": "Red", '
       '"carNumber": "re123r", "carOwnerName": "Victor"}';
-  final data = jsonDecode(jsonString);
-  print(data["brand"]);
-  print(data["model"]);
-  print(data["color"]);
-  print(data["carNumber"]);
-  print(data["carOwnerName"]);
+  final Map<String, dynamic> data = jsonDecode(jsonString);
+  var car = Car.fromJson(data);
+  print(data);
+
+
+  var f = new File('Test.txt');
+  //var sink = f.openWrite(mode: FileMode.append);
+  var sink = f.openWrite();
+  sink.write(data);
+  sink.close();
+  // f.writeAsStringSync(car.brand);
+  // f.writeAsStringSync(car.model);
+  // f.writeAsStringSync(car.color);
+  // f.writeAsStringSync(car.carNumber);
+  // f.writeAsStringSync(car.carOwnerName);
 }
 
-/*
 class Car {
+  final String brand;
+  final String model;
+  final String color;
+  final String carNumber;
+  final String carOwnerName;
 
-  Map<String, dynamic> toJson() {
-    return {
-      "brand": "toyota",
-      "model": "corolla",
-      "color": "red",
-      "carNumber": "re123r",
-      "carOwnerName": "Victor",
-    };
+  Car({required this.brand, required this.color, required this.model,
+    required this.carNumber, required this.carOwnerName});
+
+  // Map<String, dynamic> toJson() {
+  //   return {
+  //     "brand": brand,
+  //     "model": model,
+  //     "color": color,
+  //     "carNumber": carNumber,
+  //     "carOwnerName": carOwnerName,
+  //   };
+  // }
+
+  factory Car.fromJson(Map<String, dynamic> car) {
+    return Car(brand: car["brand"], color: car["color"],  model: car["model"],
+        carNumber: car["carNumber"], carOwnerName: car["carOwnerName"]);
   }
-  jsonDecode(){
-    "brand": brand,
-    "model": "re",
-    "color": "re",
-    "carNumber": "re",
-    "carOwnerName": "re",
-  };
 }
-*/
