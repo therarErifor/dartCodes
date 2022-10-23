@@ -7,15 +7,15 @@ void main ()async{
       '"carNumber": "re123r", "carOwnerName": "Victor"}';
 
   var file = new File('Test.txt');
-  //var sink = f.openWrite(mode: FileMode.append);
+
   var sink = file.openWrite();
   var contents;
   sink.write(jsonString);
   sink.close();
   if (await file.exists()){
-    //read file
     contents = await file.readAsString();
   }
+
   print(contents);
 
   final Map<String, dynamic> data = jsonDecode(contents);
