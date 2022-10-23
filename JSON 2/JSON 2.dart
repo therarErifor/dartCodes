@@ -1,25 +1,32 @@
 import 'dart:io';
 import 'dart:convert';
 
-void main (){
+void main ()async{
   const jsonString =
       '{"brand": "Toyota", "model": "Corolla", "color": "Red", '
       '"carNumber": "re123r", "carOwnerName": "Victor"}';
-  final Map<String, dynamic> data = jsonDecode(jsonString);
-  var car = Car.fromJson(data);
-  print(data);
 
-
-  var f = new File('Test.txt');
+  var file = new File('Test.txt');
   //var sink = f.openWrite(mode: FileMode.append);
-  var sink = f.openWrite();
-  sink.write(data);
+  var sink = file.openWrite();
+  var contents;
+  sink.write(jsonString);
   sink.close();
-  // f.writeAsStringSync(car.brand);
-  // f.writeAsStringSync(car.model);
-  // f.writeAsStringSync(car.color);
-  // f.writeAsStringSync(car.carNumber);
-  // f.writeAsStringSync(car.carOwnerName);
+  if (await file.exists()){
+    //read file
+    contents = await file.readAsString();
+  }
+  print(contents);
+
+  final Map<String, dynamic> data = jsonDecode(contents);
+  var car = Car.fromJson(data);
+
+  print(car.brand);
+  print(car.model);
+  print(car.color);
+  print(car.carNumber);
+  print(car.carOwnerName);
+
 }
 
 class Car {
