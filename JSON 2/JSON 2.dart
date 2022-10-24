@@ -6,12 +6,10 @@ void main (){
       '{"brand": "Toyota", "model": "Corolla", "color": "Red", '
       '"carNumber": "re123r", "carOwnerName": "Victor"}';
   writeReadFile (jsonString);
-
 }
 
 writeReadFile (var json) async {
   var file = new File('Test.txt');
-
   var sink = file.openWrite();
   var contents;
   sink.write(json);
@@ -19,7 +17,6 @@ writeReadFile (var json) async {
   if (await file.exists()) {
     contents = await file.readAsString();
   }
-
   final Map<String, dynamic> data = jsonDecode(contents);
   var car = Car.fromJson(data);
   print(car.brand);
