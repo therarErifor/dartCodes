@@ -1,7 +1,8 @@
 import "dart:io";
 
 class Field{
-  output(){
+
+  output(List grid){
     for (var n in grid) {
       stdout.write(n);
       print('');

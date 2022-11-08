@@ -2,7 +2,11 @@ import 'dart:io';
 import 'Player.dart';
 
 class Human extends Player{
-  HumanMove() {
+
+  set setGrid (a){
+    grid = a;
+  }
+  List get HumanMove {
     print('введите строку:');
     row = int.parse(stdin.readLineSync()!);
     print('введите столбец:');
@@ -19,7 +23,6 @@ class Human extends Player{
       --col;
     }
     grid [row] [col] = 'X';
-    row = 0;
-    col = 0;
+    return grid;
   }
 }
