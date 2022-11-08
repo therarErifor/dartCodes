@@ -1,9 +1,10 @@
-import 'dart:io';
-// void main(){
-//
-// }
-class kutak{
-  ebnutca(){
-    print('Kutak');
+import "dart:io";
+
+class Field{
+  output(){
+    for (var n in grid) {
+      stdout.write(n);
+      print('');
+    }
   }
 }

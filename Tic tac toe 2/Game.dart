@@ -1,7 +1,8 @@
 import 'dart:io';
 import 'Field.dart';
-import 'Player.dart';
+import 'StateGame.dart';
+import 'Player/Player.dart';
 void main(){
-  kutack tom = kutack();
-  tom.ebnutca();
+  Field tom = Field();
+  tom.oper();
 }
