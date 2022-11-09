@@ -35,19 +35,17 @@ class Game{
     do {
       print('\n Ходит игрок');
       human.setGrid = grid;
-      field.output(human.HumanMove);
+      field.output(human.FirstHumanMove);
       print('\n Ходит бот');
       bot.setGrid = grid;
       field.output(bot.BotMove);
       print('');
       var checkList = stateGame.Check(grid);
-      var checkHuman = checkList[0];
-      var checkBot = checkList[1];
-      if (checkHuman == true) {
+      if (checkList[0] == true) {
         print("Вы победили! \n игровое поле:");
         field.output(grid);
         break;
-      } else if (checkBot == true) {
+      } else if (checkList[1] == true) {
         print('Вы проиграли! \n игровое поле:');
         field.output(grid);
         break;
@@ -64,18 +62,17 @@ class Game{
     do {
       print('\n ходит Крестик');
       human.setGrid = grid;
-      field.output(human.HumanMove);
+      field.output(human.FirstHumanMove);
       print('\n ходит Нолик');
       human2.setGrid = grid;
-      field.output(human2.HumanMove2);
+      field.output(human2.SecondHumanMove);
       var checkList = stateGame.Check(grid);
-      var checkHuman = checkList[0];
-      var checkBot = checkList[1];
-      if (checkHuman == true) {
+      if (checkList[0] == true) {
         print("Победил Крестик!");
         field.output(grid);
         break;
-      } else if (checkBot == true) {
+      }else
+      if (checkList[1] == true) {
         print('Победил Нолик!');
         break;
       }
