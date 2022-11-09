@@ -3,7 +3,7 @@ import 'Field.dart';
 import 'Player/Human.dart';
 import 'Player/Bot.dart';
 import 'StateGame.dart';
-
+import 'View.dart';
 
 main(){
   Game game = Game();
@@ -14,6 +14,7 @@ main(){
 class Game{
   StateGame stateGame = StateGame();
   Field field = Field();
+  View view = View();
   Human human = Human();
   Bot bot = Bot();
   var grid;
@@ -35,23 +36,23 @@ class Game{
     do {
       print('\n Ходит игрок');
       human.setGrid = grid;
-      field.output(human.FirstHumanMove);
+      view.output(human.FirstHumanMove);
       print('\n Ходит бот');
       bot.setGrid = grid;
-      field.output(bot.BotMove);
+      view.output(bot.BotMove);
       print('');
-      var checkList = stateGame.Check(grid);
+      var checkList = field.Check(grid);
       if (checkList[0] == true) {
         print("Вы победили! \n игровое поле:");
-        field.output(grid);
+        view.output(grid);
         break;
       } else if (checkList[1] == true) {
         print('Вы проиграли! \n игровое поле:');
-        field.output(grid);
+        view.output(grid);
         break;
       }
     }
-    while ((stateGame.cond != true) | (stateGame.condBot != true));
+    while ((field.cond != true) | (field.condBot != true));
     print('Подтвердите выход');
     var exit = stdin.readLineSync()!;
   }
@@ -62,14 +63,14 @@ class Game{
     do {
       print('\n ходит Крестик');
       human.setGrid = grid;
-      field.output(human.FirstHumanMove);
+      view.output(human.FirstHumanMove);
       print('\n ходит Нолик');
       human2.setGrid = grid;
-      field.output(human2.SecondHumanMove);
-      var checkList = stateGame.Check(grid);
+      view.output(human2.SecondHumanMove);
+      var checkList = field.Check(grid);
       if (checkList[0] == true) {
         print("Победил Крестик!");
-        field.output(grid);
+        view.output(grid);
         break;
       }else
       if (checkList[1] == true) {
@@ -77,7 +78,7 @@ class Game{
         break;
       }
     }
-    while ((stateGame.cond != true) | (stateGame.condBot != true));
+    while ((field.cond != true) | (field.condBot != true));
     print('Подтвердите выход');
     var exit = stdin.readLineSync()!;
   }
