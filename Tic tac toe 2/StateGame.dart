@@ -8,7 +8,6 @@ class StateGame {
   var countBot = 0;
   var cond = false;
   var condBot = false;
-
   List get generateArray {
     grid = List<List<String>>.generate(3,
             (i) => List<String>.generate(3, (j) => "_"));
