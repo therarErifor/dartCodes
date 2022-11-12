@@ -11,7 +11,7 @@ class StateGame {
     return grid;
   }
 
-  set setArray(GameGrid) {
-    grid = GameGrid;
-  }
+  // set setArray(GameGrid) {
+  //   grid = GameGrid;
+  // }
 }

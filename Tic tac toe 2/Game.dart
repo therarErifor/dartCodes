@@ -32,51 +32,72 @@ class Game{
   }
 
   _classicGame(){
-    do {
-      print('\n Ходит игрок');
-      human.setGrid = grid;
-      view.output(human.FirstHumanMove);
-      print('\n Ходит бот');
-      bot.setGrid = grid;
-      view.output(bot.BotMove);
-    }
-    while (field.Check(grid) == 'nobody');
+    String whoWon = '';
 
-    if (field.Check(grid) == 'FirstPlayer') {
-      print('Вы победили! \n игровое поле:');
-      view.output(grid);
+    do {
+
+      human.setGrid = grid;
+      print('\n Ходит игрок');
+      view.output(human.FirstHumanMove);
+      whoWon = field.Check(grid);
+      if (whoWon == 'full'){
+        print('Ничья!');
+        break;
+      }
+
+      if (whoWon == 'FirstPlayer') {
+        print('Вы победили!');
+        break;
+      }
+
+      bot.setGrid = grid;
+      print('\n Ходит бот');
+      view.output(bot.BotMove);
+      whoWon = field.Check(grid);
+
+      if (whoWon == 'SecondPlayer') {
+        print('Вы проиграли!');
+        break;
+      }
     }
-    if (field.Check(grid) == 'SecondPlayer') {
-      print('Вы проиграли! \n игровое поле:');
-      view.output(grid);
-    }
+
+    while ((whoWon == 'nobody')|(whoWon == 'full'));
     print('Подтвердите выход');
     var exit = stdin.readLineSync()!;
   }
 
   _customGame(){
     Human human2 = Human();
+    String whoWon = '';
 
     do {
+      if (whoWon == 'full'){
+        print('Ничья!');
+        break;
+      }
       print('\n ходит Крестик');
       human.setGrid = grid;
       view.output(human.FirstHumanMove);
-      print('\n ходит Нолик');
-      human2.setGrid = grid;
-      view.output(human2.SecondHumanMove);
-      var whoWon = field.Check(grid);
-
+      whoWon = field.Check(grid);
       if (whoWon == 'FirstPlayer') {
         print("Победил Крестик!");
         view.output(grid);
         break;
-      }else
+      }
+      if (whoWon == 'full'){
+        print('Ничья!');
+        break;
+      }
+      print('\n ходит Нолик');
+      human2.setGrid = grid;
+      view.output(human2.SecondHumanMove);
+      whoWon = field.Check(grid);
       if (whoWon == 'SecondPlayer') {
         print('Победил Нолик!');
         break;
       }
     }
-    while (field.whoWon == 'nobody');
+    while ((whoWon == 'nobody')|(whoWon == 'full'));
 
     print('Подтвердите выход');
     var exit = stdin.readLineSync()!;
