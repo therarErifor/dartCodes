@@ -2,17 +2,14 @@ import 'Player.dart';
 import 'dart:math';
 
 class Bot extends Player{
-  set setGrid (a){
-    grid = a;
-  }
 
-  get BotMove{
+  playerMove(){
     Random random = Random();
-    while ((grid [row] [col] == 'X')||(grid [row] [col] == 'O')){
-      row = random.nextInt(3);
-      col = random.nextInt(3);
-    }
-    grid [row] [col] = 'O';
-    return grid;
+
+    row = random.nextInt(3);
+    col = random.nextInt(3);
+
+    List <int> move = [row, col];
+    return move;
   }
 }

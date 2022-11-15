@@ -1,17 +1,12 @@
 
+import 'Field.dart';
+
 class StateGame {
 
-  var row;
-  var col;
-  var grid;
-
-  List get generateArray {
-    grid = List<List<String>>.generate(3,
-            (i) => List<String>.generate(3, (j) => "_"));
+  state(List grid, List move, int symbol) {
+    grid [move[0]][move[1]] = symbol;
     return grid;
   }
-
-  // set setArray(GameGrid) {
-  //   grid = GameGrid;
-  // }
 }
+
+
