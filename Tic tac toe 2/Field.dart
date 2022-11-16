@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'Game.dart';
 class Field {
 
  final size;

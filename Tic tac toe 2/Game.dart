@@ -18,7 +18,7 @@ class Game{
   Player player1 = Human();
   Player player2 = Human();
   Player bot = Bot();
-  var value = 's';
+  var value = '_';
 
   Start() {
     print('Если хотите начать стандартную игру с ботом, введите "s"; \n'
@@ -77,37 +77,6 @@ class Game{
       print('Подтвердите выход');
       var exit = stdin.readLineSync()!;
   }
-
-  //   do {
-  //
-  //     print('\n Ходит игрок');
-  //     view.output(player1.HumanMove);
-  //     whoWon = Check(StateGame.setGrid());
-  //     if (whoWon == 'full'){
-  //       print('Ничья!');
-  //       break;
-  //     }
-  //
-  //     if (whoWon == 'FirstPlayer') {
-  //       print('Вы победили!');
-  //       break;
-  //     }
-  //
-  //     bot.setGrid = grid;
-  //     print('\n Ходит бот');
-  //     view.output(bot.BotMove);
-  //     whoWon = field.Check(grid);
-  //
-  //     if (whoWon == 'SecondPlayer') {
-  //       print('Вы проиграли!');
-  //       break;
-  //     }
-  //   }
-  //
-  //   while ((whoWon == 'nobody')|(whoWon == 'full'));
-  //   print('Подтвердите выход');
-  //   var exit = stdin.readLineSync()!;
-  // }
 
   _customGame(){
     String whoWon = '';
@@ -184,46 +153,66 @@ Check(grid) {
     countBot = 0;
     for (int i = 0; i <= 2; i++) {
       for (int j = 0; j <= 2; j++) {
-        if ((grid [i][j] == 1) && (j == i)) { //главная диагональ
+        if (((grid [i][j] == 1) & (j == i)) ||
+            ((grid [i][j] == 1) & (i + j == 2))) { //главная и побочная  диагональ
           count++;
         }
-        if ((grid [i][j] == 2) && (j == i)) { //главная диагональ
+        if (((grid [i][j] == 2) & (j == i)) ||
+            ((grid [i][j] == 2) & (i + j == 2))) { //главная и побочная  диагональ
           countBot++;
         }
       }
+
     }
     whoWon = _CheckWhoWon(count, countBot);
     if (whoWon!= 'nobody') {
       break;
     }
 
-// следующая проверка по побочной диагонали
     count = 0;
     countBot = 0;
-    for (int i = 0; i <= 2; i++) {
-      for (int j = 0; j <= 2; j++) {
-        if ((grid [i][j] == 1) & (i + j == 2)) { //побочная диагональ
+
+    for (int j=0; j<=2; j++) {
+      count = 0;
+      countBot = 0;
+
+      for (int i = 0; i <= 2; i++) {
+        if (grid [i][j] == 1) {
           count++;
         }
-        if ((grid [i][j] == 2) & (i + j == 2)) { //побочная диагональ
+        if (grid [i][j] == 2) {
           countBot++;
         }
       }
+      whoWon = _CheckWhoWon(count, countBot);
+      if (whoWon != 'nobody') {
+        break;
+      }
     }
     whoWon = _CheckWhoWon(count, countBot);
     if (whoWon != 'nobody') {
       break;
     }
 
-// следующая проверка (первый столбец)
+// следующая проверка (все строки)
     count = 0;
     countBot = 0;
-    for (int i = 0; i <= 2; i++) {
-      if (grid [i][0] == 1) {
-        count++;
+
+    for (int j=0; j<=2; j++) {
+      count = 0;
+      countBot = 0;
+
+      for (int i = 0; i <= 2; i++) {
+        if (grid [j][i] == 1) {
+          count++;
+        }
+        if (grid [j][i] == 2) {
+          countBot++;
+        }
       }
-      if (grid [i][0] == 2) {
-        countBot++;
+      whoWon = _CheckWhoWon(count, countBot);
+      if (whoWon != 'nobody') {
+        break;
       }
     }
     whoWon = _CheckWhoWon(count, countBot);
@@ -231,86 +220,6 @@ Check(grid) {
       break;
     }
 
-// следующая проверка (второй столбец)
-
-    count = 0;
-    countBot = 0;
-    for (int i = 0; i <= 2; i++) {
-      if (grid [i][1] == 1) {
-        count++;
-      }
-      if (grid [i][1] == 2) {
-        countBot++;
-      }
-    }
-    whoWon = _CheckWhoWon(count, countBot);
-    if (whoWon != 'nobody') {
-      break;
-    }
-
-// следующая проверка (третий столбец)
-    count = 0;
-    countBot = 0;
-    for (int i = 0; i <= 2; i++) {
-      if (grid [i][2] == 1) {
-        count++;
-      }
-      if (grid [i][2] == 2) {
-        countBot++;
-      }
-    }
-    whoWon = _CheckWhoWon(count, countBot);
-    if (whoWon != 'nobody') {
-      break;
-    }
-
-// следующая проверка (1 строка)
-    count = 0;
-    countBot = 0;
-    for (int i = 0; i <= 2; i++) {
-      if (grid [0][i] == 1) {
-        count++;
-      }
-      if (grid [0][i] == 2) {
-        countBot++;
-      }
-    }
-    whoWon = _CheckWhoWon(count, countBot);
-    if (whoWon != 'nobody') {
-      break;
-    }
-
-// следующая проверка (2 строка)
-    count = 0;
-    countBot = 0;
-    for (int i = 0; i <= 2; i++) {
-      if (grid [1][i] == 1) {
-        count++;
-      }
-      if (grid [1][i] == 2) {
-        countBot++;
-      }
-    }
-    whoWon = _CheckWhoWon(count, countBot);
-    if (whoWon != 'nobody') {
-      break;
-    }
-
-// следующая проверка (3 строка)
-    count = 0;
-    countBot = 0;
-    for (int i = 0; i <= 2; i++) {
-      if (grid [2][i] == 1) {
-        count++;
-      }
-      if (grid [2][i] == 2) {
-        countBot++;
-      }
-    }
-    whoWon = _CheckWhoWon(count, countBot);
-    if (whoWon != 'nobody') {
-      break;
-    }
 
     for (int i = 0; i <= 2; i++) {
       for (int j = 0; j <= 2; j++) {
@@ -319,6 +228,7 @@ Check(grid) {
         }
       }
     }
+
     if (countField == 0){
       whoWon = 'full';
       break;

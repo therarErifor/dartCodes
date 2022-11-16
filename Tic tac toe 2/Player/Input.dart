@@ -1,13 +1,8 @@
 import 'dart:io';
 
-import 'Human.dart';
-import 'Player.dart';
-
-
 class Input {
   var row;
   var col;
-
 
   List get InputMove {
     print('введите строку:');
