@@ -6,90 +6,35 @@ import 'Player/Player.dart';
 import 'StateGame.dart';
 import 'View.dart';
 
-
-main(){
-  Game game = Game();
-  game.Start();
-}
 class Game{
   StateGame stateGame = StateGame();
   Field field = Field(size: 3);
   View view = View();
+  var value = '_';
   Player player1 = Human();
   Player player2 = Human();
-  Player bot = Bot();
-  var value = '_';
 
   Start() {
     print('Если хотите начать стандартную игру с ботом, введите "s"; \n'
       ' если хотите играть с другим человеком, введите "m"');
   value = stdin.readLineSync()!;
     if (value == 's') {
-      _classicGame();
+      player2 = Bot();
+      GameCycle();
     }else if (value == 'm'){
-      _customGame();
+      player2 = Human();
+      GameCycle();
     }
   }
 
-  _classicGame() {
-    String whoWon = '';
-    List grid = field.FieldGenerate();
-    player1.symbol = 1;
-    bot.symbol = 2;
-    do {
-
-      print('\n Ходит игрок');
-      var move = player1.playerMove();
-      while (grid[move[0]][move[1]] == 1 || grid[move[0]][move[1]] == 2)
-      {
-        print('Пожалуйста, введите другие данные');
-        move = player1.playerMove();
-      }
-      view.output(stateGame.state(grid, move, player1.symbol));
-      field.setGrid = stateGame.state(grid, move, player1.symbol);
-
-      whoWon = Check(grid);
-      if (whoWon == 'full'){
-        print('Ничья!');
-        break;
-      }
-
-      if (whoWon == 'FirstPlayer') {
-        print('Вы победили!');
-        break;
-      }
-
-      print('\n Ходит бот');
-      move = bot.playerMove();
-      while (grid[move[0]][move[1]] == 1 || grid[move[0]][move[1]] == 2)
-      {
-        move = bot.playerMove();
-      }
-      view.output(stateGame.state(grid, move, bot.symbol));
-      field.setGrid = stateGame.state(grid, move, bot.symbol);
-      whoWon = Check(grid);
-      if (whoWon == 'SecondPlayer') {
-        print('Вы проиграли!');
-        break;
-      }
-
-    }while((whoWon == 'nobody')|(whoWon == 'full'));
-      print('Подтвердите выход');
-      var exit = stdin.readLineSync()!;
-  }
-
-  _customGame(){
+  GameCycle(){
     String whoWon = '';
     List grid = field.FieldGenerate();
     player1.symbol = 1;
     player2.symbol = 2;
 
     do {
-      whoWon = Check(grid);
-      if (whoWon == 'full'){
-        print('Ничья!');
-        break;
-      }
+
       print('\n Ходит крестик');
       var move = player1.playerMove();
       while (grid[move[0]][move[1]] == 1 || grid[move[0]][move[1]] == 2) {
@@ -99,47 +44,47 @@ class Game{
       view.output(stateGame.state(grid, move, player1.symbol));
       field.setGrid = stateGame.state(grid, move, player1.symbol);
       whoWon = Check(grid);
-      if (whoWon == 'FirstPlayer') {
-        print('Победил Крестик!');
+      if (whoWon != 'nobody'){
         break;
-      }
-      if (whoWon == 'full'){
-        print('Ничья!');
-        break;
-      }
-
-      print('\n Ходит Нолик');
-      move = player2.playerMove();
-      while (grid[move[0]][move[1]] == 1 || grid[move[0]][move[1]] == 2) {
-        print('Пожалуйста, введите другие данные');
+      }else {
+        print('\n Ходит Нолик');
         move = player2.playerMove();
-      }
-      view.output(stateGame.state(grid, move, player2.symbol));
-      field.setGrid = stateGame.state(grid, move, player2.symbol);
-      whoWon = Check(grid);
-      if (whoWon == 'SecondPlayer') {
-        print('Победил Нолик!');
-        break;
-      }
-    }
-    while ((whoWon == 'nobody')|(whoWon == 'full'));
 
+        while (grid[move[0]][move[1]] == 1 || grid[move[0]][move[1]] == 2) {
+          if (player2.id == 'human') {
+            print('Пожалуйста, введите другие данные');
+          }
+          move = player2.playerMove();
+        }
+        view.output(stateGame.state(grid, move, player2.symbol));
+        field.setGrid = stateGame.state(grid, move, player2.symbol);
+        whoWon = Check(grid);
+        if (whoWon != 'nobody') {
+          break;
+        }
+      }
+    }while(whoWon == 'nobody');
     print('Подтвердите выход');
     var exit = stdin.readLineSync()!;
   }
 }
 
-
-_CheckWhoWon(int count, int countBot){
+_CheckWhoWon(int countPlayer1, int countPlayer2){
   var whoWon;
-  if (count == 3) {
-    whoWon = 'FirstPlayer';
-  } else
-  if (countBot == 3) {
-    whoWon = 'SecondPlayer';
-  }else{
-    whoWon = 'nobody';
-  }
+
+    if (countPlayer1 == 3) {
+      whoWon = 'FirstPlayer';
+      print('Победил крестик!');
+    } else if (countPlayer2 == 3) {
+      whoWon = 'SecondPlayer';
+      print('Победил нолик!');
+    } else if (whoWon == 'full') {
+      whoWon = '';
+      print('Ничья!');
+    } else {
+      whoWon = 'nobody';
+    }
+
   return whoWon;
 }
 
@@ -148,91 +93,92 @@ Check(grid) {
   int countBot = 0;
   String whoWon = 'nobody';
   int countField = 0;
-  do {
-    count = 0;
-    countBot = 0;
-    for (int i = 0; i <= 2; i++) {
-      for (int j = 0; j <= 2; j++) {
-        if (((grid [i][j] == 1) & (j == i)) ||
-            ((grid [i][j] == 1) & (i + j == 2))) { //главная и побочная  диагональ
-          count++;
-        }
-        if (((grid [i][j] == 2) & (j == i)) ||
-            ((grid [i][j] == 2) & (i + j == 2))) { //главная и побочная  диагональ
-          countBot++;
-        }
+
+  for (int i = 0; i==0; i++){
+  for (int i = 0; i <= 2; i++) {
+    for (int j = 0; j <= 2; j++) {
+      if (((grid [i][j] == 1) & (j == i))||
+          ((grid [i][j] == 1) & (i + j == 2))){//главная и побочная  диагональ
+        count++;
       }
-
-    }
-    whoWon = _CheckWhoWon(count, countBot);
-    if (whoWon!= 'nobody') {
-      break;
-    }
-
-    count = 0;
-    countBot = 0;
-
-    for (int j=0; j<=2; j++) {
-      count = 0;
-      countBot = 0;
-
-      for (int i = 0; i <= 2; i++) {
-        if (grid [i][j] == 1) {
-          count++;
-        }
-        if (grid [i][j] == 2) {
-          countBot++;
-        }
-      }
-      whoWon = _CheckWhoWon(count, countBot);
-      if (whoWon != 'nobody') {
-        break;
+      if (((grid [i][j] == 2) & (j == i)) ||
+          ((grid [i][j] == 2) & (i + j == 2))) { //главная и побочная  диагональ
+        countBot++;
       }
     }
     whoWon = _CheckWhoWon(count, countBot);
     if (whoWon != 'nobody') {
       break;
     }
+  }
+  whoWon = _CheckWhoWon(count, countBot);
+  if (whoWon != 'nobody') {
+    break;
+  }
+
+
+// следующая проверка (все столбцы)
+  count = 0;
+  countBot = 0;
+  for (int j=0; j<=2; j++) {
+    count = 0;
+    countBot = 0;
+    for (int i = 0; i <= 2; i++) {
+      if (grid [i][j] == 1) {
+        count++;
+      }
+      if (grid [i][j] == 2) {
+        countBot++;
+      }
+    }
+    whoWon = _CheckWhoWon(count, countBot);
+    if (whoWon != 'nobody') {
+      break;
+    }
+  }
+  whoWon = _CheckWhoWon(count, countBot);
+  if (whoWon != 'nobody') {
+    break;
+  }
 
 // следующая проверка (все строки)
+  count = 0;
+  countBot = 0;
+  for (int j=0; j<=2; j++) {
     count = 0;
     countBot = 0;
-
-    for (int j=0; j<=2; j++) {
-      count = 0;
-      countBot = 0;
-
-      for (int i = 0; i <= 2; i++) {
-        if (grid [j][i] == 1) {
-          count++;
-        }
-        if (grid [j][i] == 2) {
-          countBot++;
-        }
+    for (int i = 0; i <= 2; i++) {
+      if (grid [j][i] == 1) {
+        count++;
       }
-      whoWon = _CheckWhoWon(count, countBot);
-      if (whoWon != 'nobody') {
-        break;
+      if (grid [j][i] == 2) {
+        countBot++;
       }
     }
     whoWon = _CheckWhoWon(count, countBot);
     if (whoWon != 'nobody') {
       break;
     }
+  }
+  whoWon = _CheckWhoWon(count, countBot);
+  if (whoWon != 'nobody') {
+    break;
+  }
 
 
-    for (int i = 0; i <= 2; i++) {
-      for (int j = 0; j <= 2; j++) {
-        if (grid [i][j] == 0) {
-          countField++;
-        }
+  for (int i = 0; i <= 2; i++) {
+    for (int j = 0; j <= 2; j++) {
+      if (grid [i][j] == 0) {
+        countField++;
       }
     }
+  }
 
-    if (countField == 0){
-      whoWon = 'full';
-      break;
-    }
-  } while(whoWon != 'nobody');
+  if (countField == 0){
+    whoWon = 'full';
+    break;
+  }
+}
+
   return whoWon;
 }
