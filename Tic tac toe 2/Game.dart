@@ -17,7 +17,8 @@ class Game{
   Start() {
     print('Если хотите начать стандартную игру с ботом, введите "s"; \n'
       ' если хотите играть с другим человеком, введите "m"');
-  value = stdin.readLineSync()!;
+      value = stdin.readLineSync()!;
+
     if (value == 's') {
       player2 = Bot();
       GameCycle();
@@ -34,10 +35,10 @@ class Game{
     player2.symbol = 2;
 
     do {
-
       print('\n Ходит крестик');
       var move = player1.playerMove();
-      while (grid[move[0]][move[1]] == 1 || grid[move[0]][move[1]] == 2) {
+      while (grid[move[0]][move[1]] == 1
+          || grid[move[0]][move[1]] == 2) {
         print('Пожалуйста, введите другие данные');
         move = player1.playerMove();
       }
@@ -51,8 +52,8 @@ class Game{
       }else{
           print('\n Ходит Нолик');
           move = player2.playerMove();
-
-          while (grid[move[0]][move[1]] == 1 || grid[move[0]][move[1]] == 2) {
+          while (grid[move[0]][move[1]] == 1
+              || grid[move[0]][move[1]] == 2) {
             if (player2.id == 'human') {
               print('Пожалуйста, введите другие данные');
             }
@@ -63,12 +64,10 @@ class Game{
           whoWon = Check(grid);
           if (whoWon == 'ничья!'){
             print('Ничья!');
-          }else
-          if (whoWon != 'nobody') {
+          }else if (whoWon != 'nobody') {
             break;
           }
         }
-
     }while(whoWon == 'nobody');
     print('Подтвердите выход');
     var exit = stdin.readLineSync()!;
@@ -77,7 +76,6 @@ class Game{
 
 _CheckWhoWon(int countPlayer1, int countPlayer2){
   var whoWon;
-
     if (countPlayer1 == 3) {
       whoWon = 'FirstPlayer';
       print('Победил крестик!');
@@ -87,100 +85,81 @@ _CheckWhoWon(int countPlayer1, int countPlayer2){
     } else {
       whoWon = 'nobody';
     }
-
   return whoWon;
 }
 
 Check(grid) {
-  int count = 0;
-  int countBot = 0;
+  int countPlayer1 = 0;
+  int countPlayer2 = 0;
   String whoWon = 'nobody';
   int countField = 0;
 
   for (int i = 0; i==0; i++){
+    countPlayer1 = 0;
+    countPlayer2 = 0;
     for (int i = 0; i <= 2; i++) {
       for (int j = 0; j <= 2; j++) {
         if ((grid [i][j] == 1) & (j == i)){//главная диагональ
-          count++;
+          countPlayer1++;
         }
         if ((grid [i][j] == 2) & (j == i)){ //главная диагональ
-          countBot++;
+          countPlayer2++;
         }
       }
-      whoWon = _CheckWhoWon(count, countBot);
-      if (whoWon != 'nobody') {
-        break;
-      }
+      whoWon = _CheckWhoWon(countPlayer1, countPlayer2);
+      if (whoWon != 'nobody') {break;}
     }
-    if (whoWon != 'nobody') {
-      break;
-    }
+    if (whoWon != 'nobody') {break;}
 
-    count = 0;
-    countBot=0;
+    countPlayer1 = 0;
+    countPlayer2 = 0;
     for (int i = 0; i <= 2; i++) {
       for (int j = 0; j <= 2; j++) {
-        if ((grid [i][j] == 1) & (i + j == 2)){
-          count++;
+        if ((grid [i][j] == 1) & (i + j == 2)){//побочная диагональ
+          countPlayer1++;
         }
-        if ((grid [i][j] == 2) & (i + j == 2)){
-          countBot++;
+        if ((grid [i][j] == 2) & (i + j == 2)){//побочная диагональ
+          countPlayer2++;
         }
       }
-      whoWon = _CheckWhoWon(count, countBot);
-      if (whoWon != 'nobody') {
-        break;
-      }
+      whoWon = _CheckWhoWon(countPlayer1, countPlayer2);
+      if (whoWon != 'nobody') {break;}
     }
-    if (whoWon != 'nobody') {
-      break;
-    }
+    if (whoWon != 'nobody') {break;}
+
 // следующая проверка (все столбцы)
-    count = 0;
-    countBot = 0;
     for (int j=0; j<=2; j++) {
-      count = 0;
-      countBot = 0;
+      countPlayer1 = 0;
+      countPlayer2 = 0;
       for (int i = 0; i <= 2; i++) {
         if (grid [i][j] == 1) {
-          count++;
+          countPlayer1++;
         }
         if (grid [i][j] == 2) {
-          countBot++;
+          countPlayer2++;
         }
       }
-      whoWon = _CheckWhoWon(count, countBot);
-      if (whoWon != 'nobody') {
-        break;
-      }
+      whoWon = _CheckWhoWon(countPlayer1, countPlayer2);
+      if (whoWon != 'nobody') {break;}
     }
-    if (whoWon != 'nobody') {
-      break;
-    }
+    if (whoWon != 'nobody') {break;}
 
 // следующая проверка (все строки)
-    count = 0;
-    countBot = 0;
     for (int j=0; j<=2; j++) {
-      count = 0;
-      countBot = 0;
+      countPlayer1 = 0;
+      countPlayer2 = 0;
       for (int i = 0; i <= 2; i++) {
         if (grid [j][i] == 1) {
-          count++;
+          countPlayer1++;
         }
         if (grid [j][i] == 2) {
-          countBot++;
+          countPlayer2++;
         }
       }
-      whoWon = _CheckWhoWon(count, countBot);
-      if (whoWon != 'nobody') {
-        break;
-      }
+      whoWon = _CheckWhoWon(countPlayer1, countPlayer2);
+      if (whoWon != 'nobody') {break;}
     }
-    if (whoWon != 'nobody') {
-      break;
-    }
-
+    if (whoWon != 'nobody') {break;}
 
     for (int i = 0; i <= 2; i++) {
       for (int j = 0; j <= 2; j++) {
@@ -195,6 +174,5 @@ Check(grid) {
       break;
     }
   }
-
   return whoWon;
 }
