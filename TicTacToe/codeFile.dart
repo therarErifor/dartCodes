@@ -2,9 +2,7 @@ import "dart:io";
 import 'dart:math';
 
 void main() {
-  print('Hello, world!');
   game();
-
 
 }
 
@@ -21,7 +19,7 @@ game(){
     check = checkList[0];
     checkDroid = checkList[1];
     if(check == true){
-      print("Вы победили!");
+      print("Вы победили, в кои то веки!");
       break;
     }else
     if (checkDroid == true){
